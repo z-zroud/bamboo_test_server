@@ -9,7 +9,13 @@ class Classifier(db.Model):
     has_heart_count = db.Column(db.Integer)
     undefined_count = db.Column(db.Integer)
 
-    def __init__(self, name, heavy_defect_count, light_defect_count,no_heart_count,has_heart_count, undefined_count):
+    model_id = db.Column(db.Integer, db.ForeignKey('model.id'))
+
+    light_defect_distributions = db.relationship('LightDefectDistribution', backref='classifier')
+    undefined_distributions = db.relationship('UndefinedDistribution', backref='classifier')
+
+    def __init__(self,model_id, name, heavy_defect_count, light_defect_count,no_heart_count,has_heart_count, undefined_count):
+        self.model_id = model_id
         self.name = name
         self.heavy_defect_count = heavy_defect_count
         self.light_defect_count = light_defect_count
